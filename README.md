@@ -2,6 +2,11 @@
 
 This is a brief description of what you need to setup to work in the lab.
 
+## Install the dedicated software
+
+[Go to the following link](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vivado-design-tools/2020-2.html) and install Vivado 2020.2 on you machine.
+Free licences are available for 1 month.
+
 ## If you want to use git
 
 If you already have git installed on your machine, please ignore this step.
@@ -66,4 +71,8 @@ The command
 
 is used to push your updates to the remote (online).
 
-## Install the dedicated software
+The command:
+> git pull 
+
+is used to pull the updates that somebody else have pushed on the branch.
+
