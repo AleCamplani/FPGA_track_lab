@@ -11,7 +11,9 @@ If you work with Windows, download the last git version [from the following link
 Once the installation is complete use the dedicated Git Bash terminal to work with your git repository.
 You can find it right clicking with the mouse, among the options.
 
-From Linux or MAC, open a terminal and type: sudo apt-get install git-all.
+From Linux or MAC, open a terminal and type: 
+  > sudo apt-get install git-all
+
 If you don't have apt-get, used the tool dedicated to your specific distribution (yum, dnf.. etc.)
 
 ### Github profile and SSH key
@@ -23,11 +25,45 @@ Follow the instructions [at this link](https://docs.github.com/en/github/authent
 to generate a new SSH key.
 On the top right of the Github page, click on your profile icon and select Settings. Go to SSH and GPG key.
 
-Type cat ~/.ssh/id_rsa.pub
+Type the command:
+  > cat ~/.ssh/id_rsa.pub
+
 in the terminal and copy the output in the SSH dedicated space on the Github page and save it.
 
 ### Clone the repository
+Navigate to the folder where you you like to have you repository.
+From the terminal type:
+  > git clone git@github.com:AleCamplani/FPGA_track_lab.git
+  > cd FPGA_track_lab
+
+You are now in the repo.
 
 ### Create your own branch
+You are now on the main branch, but you will need to work on your own development branch.
+
+To create a new branch type:
+  > git checkout -b <an_appropriate_name>
+  > git push -u origin <an_appropriate_name>
+
+### Git basic command
+The command:
+  > git status
+
+shows you on which branch you are, which files you have modified and which file are in the folder but not part of the repo.
+
+The command:
+  > git add <name_of_the_file>
+
+is used to add to the repo new files or the files that you have modified
+
+The command:
+  > git commit -m "A meaningful but not to long message to explain what I am pushing"
+
+is used to generate the commit, that can will be later shown in the timeline.
+
+The command
+  > git push
+
+is used to push your updates to the remote (online).
 
 ## Install the dedicated software
