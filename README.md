@@ -26,14 +26,16 @@ If you already have a gihub profile and a public ssh key, please ignore these st
 
 [Signup at this link](https://github.com/) to create a new Github profile.
 
-Follow the instructions [at this link](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?utm_source=Blog#generating-a-new-ssh-key)
-to generate a new SSH key.
+
+To generate a new SSH key, type in your Git Bash terminal:
+  > $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+
 On the top right of the Github page, click on your profile icon and select Settings. Go to SSH and GPG key.
 
-Type the command:
+In the Git Bash type the command:
   > cat ~/.ssh/id_rsa.pub
-
-in the terminal and copy the output in the SSH dedicated space on the Github page and save it.
+ 
+copy the output in the SSH dedicated space on the Github page and save it.
 
 ### Clone the repository
 Navigate to the folder where you you like to have you repository.
