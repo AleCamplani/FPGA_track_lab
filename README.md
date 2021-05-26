@@ -39,6 +39,7 @@ in the terminal and copy the output in the SSH dedicated space on the Github pag
 Navigate to the folder where you you like to have you repository.
 From the terminal type:
   > git clone git@github.com:AleCamplani/FPGA_track_lab.git
+ 
   > cd FPGA_track_lab
 
 You are now in the repo.
@@ -48,6 +49,8 @@ You are now on the main branch, but you will need to work on your own developmen
 
 To create a new branch type:
   > git checkout -b <an_appropriate_name>
+
+To push the new branch to the remote:
   > git push -u origin <an_appropriate_name>
 
 ### Git basic command
