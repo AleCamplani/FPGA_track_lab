@@ -65,7 +65,7 @@ The command:
 is used to add to the repo new files or the files that you have modified
 
 The command:
-  > git commit -m "A meaningful but not to long message to explain what I am pushing"
+  > git commit -m "A meaningful but not too long message to explain what I am pushing"
 
 is used to generate the commit, that can will be later shown in the timeline.
 
