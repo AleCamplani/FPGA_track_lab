@@ -26,13 +26,12 @@ If you already have a gihub profile and a public ssh key, please ignore these st
 
 [Signup at this link](https://github.com/) to create a new Github profile.
 
-
 To generate a new SSH key, type in your Git Bash terminal:
   > $ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 On the top right of the Github page, click on your profile icon and select Settings. Go to SSH and GPG key.
 
-In the Git Bash type the command:
+In the Git Bash terminal type the command:
   > cat ~/.ssh/id_rsa.pub
  
 copy the output in the SSH dedicated space on the Github page and save it.
