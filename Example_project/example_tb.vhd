@@ -12,9 +12,7 @@ use ieee.numeric_std.all;
 library work;
 
 entity example_tb is
-    port(
-    
-    );
+
 end example_tb;
 
 architecture behav of example_tb is
@@ -24,7 +22,7 @@ architecture behav of example_tb is
     signal input_B          : std_logic             := '0';
     signal output_C         : std_logic             := '0';
 
-    signal counter_100      : integer               := '0';
+    signal counter_100      : integer               := 0;
 
 begin
 
@@ -40,7 +38,7 @@ begin
 -- Clock generator 100 MHz
     sim_basics_clk100 : entity work.simulation_basics
         generic map (
-            reset_duration => 10,
+            reset_duration => 0,
             clk_offset     => 5 ns,
             clk_period     => 10 ns
         )
@@ -50,12 +48,12 @@ begin
             counter => counter_100
         );
 
-    input_A             <=  "000000" when counter_100 = 0 else
-                            "000001" when (counter_100 > 50) and (counter_100< 1000) else
-                            "000000";
+    input_A             <=  '0' when counter_100 = 0 else
+                            '1' when (counter_100 > 50) and (counter_100< 1000) else
+                            '0';
  
-    input_B             <=  "000000" when counter_100 = 0 else
-                            "000001" when (counter_100 > 50) and (counter_100< 1000) else
-                            "000000";
+    input_B             <=  '0' when counter_100 = 0 else
+                            '1' when (counter_100 > 50) and (counter_100< 1000) else
+                            '0';
 
 end behav;
