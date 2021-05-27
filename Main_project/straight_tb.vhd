@@ -60,15 +60,15 @@ begin
         );
  
     layer_1             <=  "00000000" when counter_100 = 0 else
-                            "00000001" when (counter_100 > 50) and (counter_100< 1000) else
+                            "00000001" when (counter_100 > 100) and (counter_100< 1000) else
                             "00000000";
  
     layer_2             <=  "00000000" when counter_100 = 0 else
-                            "00000001" when (counter_100 > 50) and (counter_100< 1000) else
+                            "00000001" when (counter_100 > 150) and (counter_100< 1000) else
                             "00000000";
  
     layer_3             <=  "00000000" when counter_100 = 0 else
-                            "00000010" when (counter_100 > 1) and (counter_100< 1000) else
+                            "00000001" when (counter_100 > 200) and (counter_100< 1000) else
                             "00000000";
 							
     reset               <=  '0' when counter_100 = 0 else

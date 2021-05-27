@@ -24,25 +24,34 @@ end straight;
 
 architecture behav of straight is
 	
-	signal ready            : std_logic                       := '1';
+	signal ready            : std_logic                       := '0';
 	signal output_vec       : std_logic_vector(7 downto 0)    := (others => '0');
 
 begin
 
-    process(clock_100)
+    ready_proc: process(clock_100)
     begin
-		if reset then
-			ready <= '1';
+        if rising_edge(clock_100) then
+			if reset = '1' then
+				ready <= '0';
+			else
+				ready <= start_comparison;
+			end if;
 		end if;
+	end process;
 	
-        if rising_edge(clock_100) and ready and start_comparison then
-            ready <= 0;
-			
-			for i in 7 downto 0 loop
-				output_vec(i) <= layer_1(i) and layer_2(i) and layer_3(i);
-			end loop;
-			
-			Found_match <= or_reduce(output_vec);
+    comp_proc: process(clock_100)
+    begin
+        if rising_edge(clock_100) then
+			if reset = '1' then
+				output_vec 	<= (others => '0');
+				Found_match <= '0';
+			elsif ready = '1' then
+				for i in 7 downto 0 loop
+					output_vec(i) <= layer_1(i) and layer_2(i) and layer_3(i);
+				end loop;
+				Found_match <= or_reduce(output_vec);
+			end if;
         end if;
     end process;
 
