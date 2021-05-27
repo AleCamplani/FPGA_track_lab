@@ -12,9 +12,14 @@ end diagonal_tb;
 architecture behav of diagonal_tb is
 
     signal clock_100           : std_logic                      := '0';
+	
     signal layer_1             : std_logic_vector(7 downto 0)   := (others => '0');
     signal layer_2             : std_logic_vector(7 downto 0)   := (others => '0');
     signal layer_3             : std_logic_vector(7 downto 0)   := (others => '0');
+
+    signal reset               : std_logic                      := '0';
+    signal start_comparison    : std_logic                      := '0';
+	
     signal Found_match         : std_logic                      := '0';
 
     signal counter_100         : integer                        := 0;
@@ -28,6 +33,9 @@ begin
             layer_1           => layer_1,
             layer_2           => layer_2,
             layer_3           => layer_3,
+
+			reset             => reset,
+            start_comparison  => start_comparison,
     
             Found_match       => Found_match
         );
@@ -56,5 +64,12 @@ begin
     layer_3             <=  "00000000" when counter_100 = 0 else
                             "00000001" when (counter_100 > 1) and (counter_100< 1000) else
                             "00000000";
- 
+
+    reset               <=  '0' when counter_100 = 0 else
+                            '1' when (counter_100 > 1) and (counter_100< 40) else
+                            '0';
+
+    start_comparison    <=   '1' when (counter_100 > 70) and (counter_100< 1000) else
+                             '0';
+
 end behav;

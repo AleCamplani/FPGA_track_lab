@@ -15,20 +15,30 @@ entity diagonal is
         layer_2             : in  std_logic_vector(7 downto 0);
 		layer_3				: in  std_logic_vector(7 downto 0);
 
-        Found_match            : out std_logic := '0'
+		reset               : in std_logic;
+		start_comparison    : in std_logic;
+
+        Found_match         : out std_logic := '0'
     );
 end diagonal;
 
 architecture behav of diagonal is
 	
-	signal output_right       : std_logic_vector(7 downto 0)    := (others => '0');
-    signal output_left        : std_logic_vector(7 downto 0)    := (others => '0');
+	signal ready            : std_logic                       := '1';
+	signal output_right     : std_logic_vector(7 downto 0)    := (others => '0');
+    signal output_left      : std_logic_vector(7 downto 0)    := (others => '0');
 
 begin
 
     process(clock_100)
     begin
-        if rising_edge(clock_100) then
+		if reset then
+			ready <= '1';
+		end if;
+
+        if rising_edge(clock_100) and ready and start_comparison then
+            ready <= 0;
+			
             for i in 7 downto 0 loop
                 if 7-i>=2 then
 				    output_right(i) <= layer_1(i) and layer_2(i+1) and layer_3(i+2);
