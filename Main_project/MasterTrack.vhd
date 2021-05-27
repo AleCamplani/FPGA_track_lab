@@ -75,24 +75,20 @@ begin
                     if layer_1(i) = '1' then --First check if there is a signal on first layer
                         --Go up one layer
                         if layer_2(i) = '1' then --perhaps a straight or a bend
-                            
-                            if layer_3(i) = '1' then -- we have a straight:
-                                straight(i) <= '1';
-                                Match_count := Match_count + ("000000" & straight(i));
-                            end if;
+                             -- we have a straight:
+                            straight(i) <= layer_3(i);
+                            Match_count := Match_count + ("000000" & straight(i));
                             
                             if i >= 1 then --there can be bend to the left
-                                if layer_3(i-1) = '1' then --bend to the left
-                                    bend_left(i) <= '1';
-                                    Match_count := Match_count + ("000000" & bend_left(i));
-                                end if;
+                                --bend to the left
+                                bend_left(i) <= layer_3(i-1);
+                                Match_count := Match_count + ("000000" & bend_left(i));
                             end if;
 
                             if i <= 6 then --there can be bend to the right
-                                if layer_3(i+1) = '1' then --bend to the right
-                                    bend_right(i) <= '1';
-                                    Match_count := Match_count + ("000000" & bend_right(i));
-                                end if;
+                                --bend to the right
+                                bend_right(i) <= layer_3(i+1);
+                                Match_count := Match_count + ("000000" & bend_right(i));
                             end if;
 
                         end if;
@@ -100,33 +96,26 @@ begin
                         if i >= 1 then --there can be a fork or diagonal to the left
 
                             if layer_2(i-1) = '1' then
-                                if layer_3(i-1) = '1' then --check fork
-                                    fork_left(i) <= '1';
-                                    Match_count := Match_count + ("000000" & fork_left(i));
-                                end if;
+                                --set fork
+                                fork_left(i) <= layer_3(i-1);
+                                Match_count := Match_count + ("000000" & fork_left(i));
                                 
                                 if i >= 2 then --check diagonal
-                                    if layer_3(i-2) = '1' then
-                                        diag_left(i) <= '1';
-                                        Match_count := Match_count + ("000000" & diag_left(i));
-                                        end if;
+                                    diag_left(i) <= layer_3(i-2);
+                                    Match_count := Match_count + ("000000" & diag_left(i));
                                 end if;
                             end if;
                         end if;
 
                         if i <= 6 then --there can be a fork or diagonal to the right
                             if layer_2(i+1) = '1' then
-                                
-                                if layer_3(i+1) = '1' then --check fork
-                                    fork_right(i) <= '1';
-                                    Match_count := Match_count + ("000000" & fork_right(i));
-                                end if;
+                                --set fork
+                                fork_right(i) <= layer_3(i+1);
+                                Match_count := Match_count + ("000000" & fork_right(i));
                                 
                                 if i <= 5 then --check diagonal
-                                    if layer_3(i+2) = '1' then
-                                        diag_right(i) <= layer_3(i+2);
-                                        Match_count := Match_count + ("000000" & diag_right(i));
-                                    end if;
+                                    diag_right(i) <= layer_3(i+2);
+                                    Match_count := Match_count + ("000000" & diag_right(i));
                                 end if;
                             end if;
                         end if;
