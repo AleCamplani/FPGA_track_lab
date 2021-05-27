@@ -51,6 +51,9 @@ begin
 					output_vec(i) <= layer_1(i) and layer_2(i) and layer_3(i);
 				end loop;
 				Found_match <= or_reduce(output_vec);
+			else
+				output_vec <= (others => '0');
+				Found_match <= '0';
 			end if;
         end if;
     end process;
