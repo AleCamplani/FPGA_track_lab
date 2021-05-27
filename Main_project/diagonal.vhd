@@ -25,7 +25,8 @@ end diagonal;
 architecture behav of diagonal is
 	
 	signal ready            : std_logic                       := '0';
-	signal output_vec       : std_logic_vector(7 downto 0)    := (others => '0');
+	signal output_right     : std_logic_vector(7 downto 0)    := (others => '0');
+	signal output_left      : std_logic_vector(7 downto 0)    := (others => '0');
 
 begin
 
@@ -44,20 +45,26 @@ begin
     begin
         if rising_edge(clock_100) then
 			if reset = '1' then
-				output_vec 	<= (others => '0');
+				output_left 	<= (others => '0');
+				output_right 	<= (others => '0');
 				Found_match <= '0';
 			elsif ready = '1' then
 				for i in 7 downto 0 loop
-					if 7-i>=2 then
+					if i <= 5 then
                         output_right(i) <= layer_1(i) and layer_2(i+1) and layer_3(i+2);
+                    else 
+                        output_right(i) <= '0';
                     end if;
                     if i>=2 then
                         output_left(i) <= layer_1(i) and layer_2(i-1) and layer_3(i-2);
+                    else 
+                        output_left(i) <= '0';
                     end if;
 				end loop;
-				Found_match <= or_reduce(output_vec);
+				Found_match <= or_reduce(output_left) or or_reduce(output_right);
 			else
-				output_vec <= (others => '0');
+                output_left <= (others => '0');
+                output_right <= (others => '0');
 				Found_match <= '0';
 			end if;
         end if;
