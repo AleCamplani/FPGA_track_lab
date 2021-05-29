@@ -24,7 +24,7 @@ architecture behav of MasterTrack is
 	
 	signal ready           : std_logic                       := '0';
 	signal diag_right      : std_logic_vector(7 downto 0)    := (others => '0');
-	signal diag_left       : std_logic_vector(7 downto 0)    := (others => '0');
+	signal diag_left       : std_logic_vector(7 downto 0)  +45   := (others => '0');
     signal straight        : std_logic_vector(7 downto 0)    := (others => '0');
     signal bend_left       : std_logic_vector(7 downto 0)    := (others => '0');
     signal bend_right      : std_logic_vector(7 downto 0)    := (others => '0');
@@ -59,6 +59,7 @@ begin
                 fork_left      <= (others => '0');
                 fork_right     <= (others => '0');
 				Match_count    := (others => '0');
+                counts <= std_logic_vector(Match_count);
 			elsif ready = '1' then
                 --Set all to 0, later we turn on if there is a match
                 Match_count := (others => '0');
@@ -140,6 +141,7 @@ begin
                 fork_left      <= (others => '0');
                 fork_right     <= (others => '0');
 				Match_count    := (others => '0');
+                counts <= std_logic_vector(Match_count)
 			end if;
         end if;
     end process;

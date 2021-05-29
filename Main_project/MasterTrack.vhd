@@ -132,6 +132,7 @@ begin
                 fork_left      <= (others => '0');
                 fork_right     <= (others => '0');
 				Match_count    := (others => '0');
+                counts <= std_logic_vector(Match_count)
 			end if;
         end if;
     end process;
