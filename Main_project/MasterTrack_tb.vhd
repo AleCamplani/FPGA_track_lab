@@ -50,17 +50,17 @@ begin
         );
  
     layer_1             <=  "00000000" when counter_100 = 0 else
-                            "00000001" when (counter_100 > 100) and (counter_100< 1000) else
+                            "00000001" when (counter_100 > 100) and (counter_100 < 999) else
                             "00001111" when (counter_100 > 1000) and (counter_100< 1500) else
                             "00000000";
  
     layer_2             <=  "00000000" when counter_100 = 0 else
-                            "00000001" when (counter_100 > 150) and (counter_100< 1000) else
+                            "00000001" when (counter_100 > 150) and (counter_100< 999) else
                             "00010010" when (counter_100 > 1000) and (counter_100< 1500) else
                             "00000000";
  
     layer_3             <=  "00000000" when counter_100 = 0 else
-                            "00000001" when (counter_100 > 200) and (counter_100< 1000) else
+                            "00000001" when (counter_100 > 200) and (counter_100< 999) else
                             "00000101" when (counter_100 > 1000) and (counter_100< 1500) else
                             "00000000";
 							
