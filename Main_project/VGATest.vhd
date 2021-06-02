@@ -11,18 +11,18 @@ library work;
 entity VGATest is
     port (
         clock_100           : in  std_logic;
-		HS : out STD_LOGIC;
-		VS : out STD_LOGIC;
-		r,g,b : out STD_LOGIC_VECTOR(3 downto 0) := (others => '0')
+		HS 					: out STD_LOGIC;
+		VS 					: out STD_LOGIC;
+		r,g,b 				: out STD_LOGIC_VECTOR(3 downto 0) 	:= (others => '0')
     );
 end VGATest;
 
 architecture behav of VGATest is
-	signal clk_1           : std_logic                       := '0';
-	signal H_counter_value : integer :=0;
-	signal V_counter_value : integer :=0;
-	signal x : integer :=0;
-	signal y : integer :=0;
+	signal clk_1           	: std_logic                    		:= '0';
+	signal H_counter_value 	: integer 							:= 0;
+	signal V_counter_value 	: integer 							:= 0;
+	signal x 				: integer 							:= 0;
+	signal y 				: integer 							:= 0;
     
 begin
 
@@ -44,11 +44,11 @@ begin
         if rising_edge(clk_1) then
 			
 			H_counter_value <= H_counter_value +1;
-			if (H_counter_value = 800) then --go one row down
+			if (H_counter_value >= 800) then --go one row down
 				H_counter_value <= 0;
 				V_counter_value <= V_counter_value +1;
 			end if;
-			if (V_counter_value = 521) then --go back to top
+			if (V_counter_value >= 521) then --go back to top
 				V_counter_value <= 0;
 			end if;
 			x <= H_counter_value-143; --compensate for retrace?
@@ -75,10 +75,10 @@ begin
 		and V_counter_value >=31
 		and V_counter_value <521)
 		then --then we are within the area of the screen
-			if (H_counter_value = 147
-			or H_counter_value = 796
+			if (H_counter_value = 146
+			or H_counter_value = 785
 			or V_counter_value =35
-			or V_counter_value =516)
+			or V_counter_value =514)
 			--or H_counter_value = 144+218
 			--or H_counter_value = 144+2*218
 			--or H_counter_value = 144+3*218

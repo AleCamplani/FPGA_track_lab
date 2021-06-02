@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Wed Jun  2 12:10:23 2021
+| Date         : Wed Jun  2 15:00:04 2021
 | Host         : LAPTOP-A067CLBD running 64-bit major release  (build 9200)
 | Command      : report_drc -file MasterTrack_drc_opted.rpt -pb MasterTrack_drc_opted.pb -rpx MasterTrack_drc_opted.rpx
 | Design       : MasterTrack
@@ -24,12 +24,18 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max violations: <unlimited>
-             Violations found: 0
-+------+----------+-------------+------------+
-| Rule | Severity | Description | Violations |
-+------+----------+-------------+------------+
-+------+----------+-------------+------------+
+             Violations found: 1
++--------+----------+-----------------------+------------+
+| Rule   | Severity | Description           | Violations |
++--------+----------+-----------------------+------------+
+| IOSR-1 | Warning  | IOB set reset sharing | 1          |
++--------+----------+-----------------------+------------+
 
 2. REPORT DETAILS
 -----------------
+IOSR-1#1 Warning
+IOB set reset sharing  
+IO start_comparison connects to flops which have these reset_IBUF, u_ila_0/inst/ila_core_inst/use_probe_debug_circuit set/reset signals.  For optimal IOB flop packing there should be only one set/reset signal coming into the IOB.
+Related violations: <none>
+
 

@@ -70,6 +70,8 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 1
+set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35ticpg236-1L
 
@@ -100,6 +102,9 @@ foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
 }
 read_xdc C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/Merged.xdc
 set_property used_in_implementation false [get_files C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/Merged.xdc]
+
+read_xdc C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/MasterTrackV4/MasterTrackV4.srcs/constrs_1/new/signal_probing.xdc
+set_property used_in_implementation false [get_files C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/MasterTrackV4/MasterTrackV4.srcs/constrs_1/new/signal_probing.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]
