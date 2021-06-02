@@ -11,14 +11,15 @@ entity straight is
     port (
         clock_100           : in  std_logic;
         
-        layer_1             : in  std_logic_vector(7 downto 0);
-        layer_2             : in  std_logic_vector(7 downto 0);
-		layer_3				: in  std_logic_vector(7 downto 0);
+        JA             		: in  std_logic_vector(7 downto 0);
+        JB             		: in  std_logic_vector(7 downto 0);
+		JC					: in  std_logic_vector(7 downto 0);
 		
 		reset               : in std_logic;
 		start_comparison    : in std_logic;
 
-        Found_match            : out std_logic := '0'
+        Found_match         : out std_logic := '0';
+		Comparing           : out std_logic := '0'
     );
 end straight;
 
@@ -27,7 +28,22 @@ architecture behav of straight is
 	signal ready            : std_logic                       := '0';
 	signal output_vec       : std_logic_vector(7 downto 0)    := (others => '0');
 
+	
+	signal layer_1			: std_logic_vector(7 downto 0)	:= (others => '0');
+	signal layer_2			: std_logic_vector(7 downto 0)	:= (others => '0'); 
+	signal layer_3			: std_logic_vector(7 downto 0)	:= (others => '0'); 
 begin
+
+	Comparing <= start_comparison;
+
+    synch_proc: process(clock_100)
+    begin
+        if rising_edge(clock_100) then
+			layer_3 <= JA;
+			layer_2 <= JB;
+			layer_1 <= JC;
+		end if;
+	end process;
 
     ready_proc: process(clock_100)
     begin

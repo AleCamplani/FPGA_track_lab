@@ -17,9 +17,7 @@ entity MasterTrack is
 		layer_3				: in  layer;
 		
 		reset               : in std_logic;
-		start_comparison    : in std_logic;
-		
-		shape_use			: in integer
+		start_comparison    : in std_logic
     );
 end MasterTrack;
 
@@ -31,8 +29,6 @@ architecture behav of MasterTrack is
 	signal shape_counts			: integer_array		:= (others => 0);
 	
     signal counts          		: integer       	:= 0;
-	
-	signal show_shape			: pos_vector		:= (others => 0);
     	
 begin
 
@@ -53,7 +49,6 @@ begin
 
     begin
         if rising_edge(clock_100) then
-			show_shape <= shape(shape_use);
 			if (reset = '1' or ready = '0') then
                 --if resetting, set all to 0
 				shape_found			<= (others => (others => '0'));
