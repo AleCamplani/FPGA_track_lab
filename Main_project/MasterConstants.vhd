@@ -20,20 +20,20 @@ package MasterConstants is
 	subtype layer 					is std_logic_vector(line_width - 1 downto 0);
 	
 -- Vectors
-	type integer_array				is array (0 to shape_count - 1) of integer;
-	type layer_array				is array (0 to shape_count - 1) of layer;
-	type pos_vector 				is array (0 to 1) of integer;
-	type pos_vector_array			is array (0 to shape_count - 1) of pos_vector;
+	type integer_array				is array (shape_count - 1 downto 0) of integer;
+	type layer_array				is array (shape_count - 1 downto 0) of layer;
+	type pos_vector 				is array (1 downto 0) of integer;
+	type pos_vector_array			is array (shape_count - 1 downto 0) of pos_vector;
 	
 -- shapes
-	constant shape					: pos_vector_array		:= (( 0, 0),
-																( 0,-1),
-																( 0, 1),
-																(-1,-1),
+	constant shape					: pos_vector_array		:= (( 2, 1),
+																(-2,-1),
 																( 1, 1),
-																(-1,-2),
-																( 1, 2));
-
+																(-1,-1),
+																( 1, 0),
+																(-1, 0),
+																( 0, 0));
+	
 -- Checks if a shape exists
 	function CheckShape(TestShape: pos_vector;
 						Layer1   : layer;

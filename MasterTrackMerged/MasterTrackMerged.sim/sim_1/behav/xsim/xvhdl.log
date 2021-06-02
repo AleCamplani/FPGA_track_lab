@@ -1,0 +1,5 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/MasterConstants.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/MasterTrackV4.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'MasterTrack'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/MasterTrack_tb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'MasterTrack_tb'
