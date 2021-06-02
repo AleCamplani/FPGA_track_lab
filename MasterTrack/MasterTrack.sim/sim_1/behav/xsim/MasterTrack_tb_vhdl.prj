@@ -1,0 +1,9 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../../Main_project/MasterConstants.vhd" \
+"../../../../../Main_project/MasterTrackV2.vhd" \
+"../../../../../Tracking_project/simulation_basics.vhd" \
+"../../../../../Main_project/MasterTrack_tb.vhd" \
+
+# Do not sort compile order
+nosort

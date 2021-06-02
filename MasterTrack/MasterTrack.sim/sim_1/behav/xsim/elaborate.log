@@ -1,0 +1,20 @@
+Vivado Simulator 2020.2
+Copyright 1986-1999, 2001-2020 Xilinx, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2020.2/bin/unwrapped/win64.o/xelab.exe -wto f42f52a7e52844eb87d37de5512ad2ca --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot MasterTrack_tb_behav xil_defaultlib.MasterTrack_tb -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling package ieee.numeric_std
+Compiling package xil_defaultlib.masterconstants
+Compiling package synopsys.attributes
+Compiling package ieee.std_logic_misc
+Compiling architecture behav of entity xil_defaultlib.MasterTrack [mastertrack_default]
+Compiling architecture behavior of entity xil_defaultlib.SIMULATION_BASICS [\SIMULATION_BASICS(reset_duratio...]
+Compiling architecture behav of entity xil_defaultlib.mastertrack_tb
+Built simulation snapshot MasterTrack_tb_behav
