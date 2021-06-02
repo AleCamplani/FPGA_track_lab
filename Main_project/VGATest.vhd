@@ -71,14 +71,28 @@ begin
 	draw_proc: process(clk_1, H_counter_value, V_counter_value)
 	begin
 		if (H_counter_value >= 144
-		and H_counter_value < 783
+		and H_counter_value < 800
 		and V_counter_value >=31
-		and V_counter_value <510)
+		and V_counter_value <521)
 		then --then we are within the area of the screen
-			
-			r <= "0110";
-			g <= "0000";
-			b <= "0000";
+			if (H_counter_value = 147
+			or H_counter_value = 796
+			or V_counter_value =35
+			or V_counter_value =516)
+			--or H_counter_value = 144+218
+			--or H_counter_value = 144+2*218
+			--or H_counter_value = 144+3*218
+			--or V_counter_value = 31+245)
+			--or V_counter_value = 31+2*245)
+			then
+				r <= "0110";
+				g <= "0000";
+				b <= "0000";
+			else
+			    r <= "0000";
+			    g <= "0000";
+			    b <= "0000";
+			end if;
 		else
 		    r <= "0000";
 			g <= "0000";
