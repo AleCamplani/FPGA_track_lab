@@ -12,16 +12,18 @@ end MasterTrack_tb;
 
 architecture behav of MasterTrack_tb is
 
-    signal clock_100            : std_logic                     := '0';
+    signal clock_100            : std_logic                     				:= '0';
 
-    signal layer_1              : layer                         := (others => '0');
-    signal layer_2              : layer                         := (others => '0');
-    signal layer_3              : layer                         := (others => '0');
+    signal layer_1              : layer                         				:= (others => '0');
+    signal layer_2              : layer                         				:= (others => '0');
+    signal layer_3              : layer                         				:= (others => '0');
+	
+    signal reset                : std_logic                     				:= '0';
+    signal start_comparison     : std_logic                     				:= '0';
+	
+	signal UseCounts			: std_logic_vector(shape_count - 1 downto 0)	:= (others => '0');
 
-    signal reset                : std_logic                     := '0';
-    signal start_comparison     : std_logic                     := '0';
-
-    signal counter_100          : integer                       := 0;
+    signal counter_100          : integer                       				:= 0;
 
 begin
 
@@ -34,7 +36,9 @@ begin
             layer_3           	=> layer_3,
 			
 			reset             	=> reset,
-            start_comparison  	=> start_comparison
+            start_comparison  	=> start_comparison,
+			
+			UseCounts			=> UseCounts
         );
 
 -- Clock generator 100 MHz
@@ -58,7 +62,7 @@ begin
 							"00010000" when (counter_100 > 400) and (counter_100< 500) else
 							"00010000" when (counter_100 > 500) and (counter_100< 600) else
 							"00010000" when (counter_100 > 600) and (counter_100< 700) else
-                            "00000000";
+                            "11111111";
  
     layer_2             <=  "00000000" when counter_100 = 0 else
                             "00010000" when (counter_100 > 0) and (counter_100< 100) else
@@ -78,7 +82,7 @@ begin
 							"00100000" when (counter_100 > 400) and (counter_100< 500) else
 							"00000100" when (counter_100 > 500) and (counter_100< 600) else
 							"01000000" when (counter_100 > 600) and (counter_100< 700) else
-                            "00000000";
+                            "11111111";
 							
     reset               <=  '0' when counter_100 = 0 else
                             '1' when (counter_100 > 1) and (counter_100< 40) else
@@ -86,5 +90,15 @@ begin
 
     start_comparison    <=   '1' when (counter_100 > 70) and (counter_100< 2000) else
                              '0';
+							 
+	UseCounts           <=  "0000000" when counter_100 = 0 else
+                            "0000001" when (counter_100 > 0) and (counter_100< 100) else
+							"0000010" when (counter_100 > 100) and (counter_100< 200) else
+							"0000100" when (counter_100 > 200) and (counter_100< 300) else
+							"0001000" when (counter_100 > 300) and (counter_100< 400) else
+							"0010000" when (counter_100 > 400) and (counter_100< 500) else
+							"0100000" when (counter_100 > 500) and (counter_100< 600) else
+							"1000000" when (counter_100 > 600) and (counter_100< 700) else
+                            "0000001";
  
 end behav;
