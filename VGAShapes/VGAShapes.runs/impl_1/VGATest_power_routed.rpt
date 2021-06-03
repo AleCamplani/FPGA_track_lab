@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date             : Wed Jun  2 16:58:39 2021
+| Date             : Thu Jun  3 09:59:28 2021
 | Host             : LAPTOP-A067CLBD running 64-bit major release  (build 9200)
 | Command          : report_power -file VGATest_power_routed.rpt -pb VGATest_power_summary_routed.pb -rpx VGATest_power_routed.rpx
 | Design           : VGATest
@@ -30,7 +30,7 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.060        |
+| Total On-Chip Power (W)  | 0.059        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
 | Dynamic (W)              | 0.001        |
@@ -53,16 +53,16 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |    <0.001 |        3 |       --- |             --- |
-| Slice Logic    |    <0.001 |      648 |       --- |             --- |
-|   LUT as Logic |    <0.001 |      320 |     20800 |            1.54 |
-|   CARRY4       |    <0.001 |      104 |      8150 |            1.28 |
+| Slice Logic    |    <0.001 |     1183 |       --- |             --- |
+|   LUT as Logic |    <0.001 |      648 |     20800 |            3.12 |
+|   CARRY4       |    <0.001 |      184 |      8150 |            2.26 |
 |   Register     |    <0.001 |       99 |     41600 |            0.24 |
 |   Others       |     0.000 |        2 |       --- |             --- |
 |   BUFG         |     0.000 |        1 |        32 |            3.13 |
-| Signals        |    <0.001 |      272 |       --- |             --- |
+| Signals        |    <0.001 |      443 |       --- |             --- |
 | I/O            |    <0.001 |       15 |       106 |           14.15 |
 | Static Power   |     0.059 |          |           |                 |
-| Total          |     0.060 |          |           |                 |
+| Total          |     0.059 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -138,10 +138,8 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+---------+-----------+
-| Name    | Power (W) |
-+---------+-----------+
-| VGATest |     0.001 |
-+---------+-----------+
++------+-----------+
+| Name | Power (W) |
++------+-----------+
 
 

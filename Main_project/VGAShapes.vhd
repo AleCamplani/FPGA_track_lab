@@ -81,15 +81,15 @@ begin
 			Pos_H		:= H_counter_value - H_Start;
 			Pos_V		:= V_counter_value - V_Start;
 			
-			if DrawShape(Pos_H,Pos_V,50,50,20,shape_data(1)) = '1' then
-				r <= "0110";
-				g <= "0000";
-				b <= "0000";
+			if (DrawShape(Pos_H,Pos_V,50,50,20,shape_data(1)) = '1'
+				or DrawCounts(Pos_H, Pos_V, 150, 150, 20, "00111010") = '1')then
+				r <= "0000";
+				g <= "0110";
+				b <= "0001";
 			else
 				r <= "0000";
 				g <= "0000";
 				b <= "0000";
-			
 			end if;
 			
 		else

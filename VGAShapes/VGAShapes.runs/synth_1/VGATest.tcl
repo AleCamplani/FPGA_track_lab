@@ -70,7 +70,6 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param tcl.collectionResultDisplayLimit 0
 set_param chipscope.maxJobs 1
 set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
@@ -88,6 +87,7 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_vhdl -library xil_defaultlib {
+  C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/MasterConstants.vhd
   C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/VGALib.vhd
   C:/Users/rasmu/Documents/ExperimentalPhysics/FPGA_track_lab/Main_project/VGAShapes.vhd
 }
