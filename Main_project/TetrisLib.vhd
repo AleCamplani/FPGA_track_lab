@@ -2,15 +2,22 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 package VGALib is
-	constant TetrisWidth		: integer			:= 10;
+	constant TetrisWidth		: integer			:= 11;
 	constant TetrisHeight		: integer			:= 20;
 	constant TetrisShapeSize	: integer			:= 3;
 	constant TetrisShapeCount	: integer			:= 7;
+	constant TetrisFirstX		: integer			:= 5;
+	constant TetrisFirstY		: integer			:= -2;
 	
 	constant ShowTetrisSize		: integer			:= 5;
 	constant MapStartX			: integer			:= 100;
 	constant MapStartY			: integer			:= 100;
 	constant move_clk_const		: integer			:= 50000000;
+	
+	constant RNG_MOD			: integer			:= 0x7FFFFFFF;
+	constant RNG_SIZE			: integer			:= 0x80000000;
+	constant RNG_MULTIPLIER		: integer			:= 0x7FFFFFED;
+	constant RNG_CONSTANT		: integer			:= 0x7FFFFFC3;
 	
 	subtype tetris_array is std_logic_vector(TetrisHeight * TetrisWidth - 1 downto 0);
 	subtype tetris_shape is std_logic_vector(TetrisShapeSize * TetrisShapeSize - 1 downto 0);
@@ -39,6 +46,13 @@ package VGALib is
 							V_0				: integer;
 							size			: integer;
 							shape			: tetris_shape) return std_logic;
+							
+	function CheckCollision(tetris_map		: tetris_array;
+							shape			: tetris_shape;
+							piece_posx		: integer;
+							piece_posy		: integer) return std_logic;
+							
+	function RNG(			seed			: integer) return integer;
 end VGALib;
 
 package body VGALib is
@@ -96,5 +110,43 @@ package body VGALib is
 						Draw = '1';
 			end loop;
 		end loop;
+		
+		return Draw;
+	end function;
+	
+	function CheckCollision(tetris_map		: tetris_array;
+							shape			: tetris_shape;
+							piece_posx		: integer;
+							piece_posy		: integer) return std_logic is
+		
+		variable Collided					: std_logic		:= '0';			
+	begin
+		for x in TetrisShapeSize - 1 downto 0 loop
+			for y in TetrisShapeSize - 1 downto 0 loop
+				if shape(y * TetrisShapeSize + x) = '1' then
+					-- Test if it is outside of the valid range
+					if (piece_posx + x < 0
+						or piece_posx + x >= TetrisWidth
+						or piece_posy + y < 0
+						or piece_posy + y <= TetrisHeight) then
+						Collided = '1';
+					-- Test if it collided
+					elsif tetris_map((piece_posy + y) * TetrisWidth + piece_posx + x) = '1' then
+						Collided = '1';
+					end if;
+				end if;
+			end loop;
+		end loop;
+		
+		return Collided;
+	end function;
+	
+	function RNG(			seed			: integer) return integer is
+	
+		variable NewNum						: integer := 0;
+	begin
+		NewNum 			<= (seed * RNG_MULTIPLIER + RNG_CONSTANT) mod RNG_MOD)
+	
+		return NewNum;
 	end function;
 end package body VGALib;

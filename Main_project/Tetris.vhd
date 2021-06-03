@@ -30,6 +30,10 @@ architecture behav of Tetris is
 	signal Piece_y			: integer							:= 0;
 	signal Piece_id			: integer							:= 0;
 	signal Piece_rot		: integer							:= 0;
+	signal RNG_Seed			: integer							:= 0;
+	signal TetrisReset		: std_logic							:= '1';
+	signal TetrisNewPiece	: std_logic							:= '1';
+	signal Score			: integer							:= 0;
     
 begin
 
@@ -107,6 +111,13 @@ begin
 		end if;
 	end process;
 	
+	RNG_proc: process(clock_100)
+	begin
+		if rising_edge(clock_100) then
+			RNG_Seed		<= RNG(RNG_Seed);
+		end if;
+	end process;
+	
 	move_clk_proc: process(clock_100)
     variable move_clk_count  : integer := 0;
     begin
@@ -124,16 +135,60 @@ begin
 	variable collision		: std_logic := '0';
 	variable var_piece_y	: integer	:= 0;
 	begin
-		-- Move piece
-		var_piece_y 		:= Piece_y + 1;
+		if rising_edge(move_clk_1) then
+			-- Move piece
+			var_piece_y 		:= Piece_y + 1;
+		
+			-- check for collision
+			if CheckCollision(t_map, TetrisShapes(Piece_id)(Piece_rot), Piece_x, var_piece_y) = '1' then
+				-- place the piece
+				for x in TetrisShapeSize - 1 downto 0 loop
+					for y in TetrisShapeSize - 1 downto 0 loop
+						-- Check if game should reset
+						if TetrisShapes(Piece_id)(Piece_rot)(y * TetrisShapeSize + x) = '1' and Piece_y + y < 0 then
+							TetrisReset											<= '1';
+						else
+							t_map((Piece_y + y) * TetrisWidth + Piece_x + x)	<= '1';
+						end if;
+					end loop;
+				end loop;
+				
+				TetrisNewPiece		<= '1';
+			else -- move the piece
+				Piece_y			<= var_piece_y;
+			end if;
+		end if;
+	end process;
 	
-		-- check for collision
-		if (var_piece_y + TetrisShapeSize > TetrisHeight) then
-			collision		:= '1';
-		elsif then
-			
-		else
-			collision		:= '0';
+	new_piece_proc: process(clock_100)
+	begin
+		if rising_edge(clock_100) then
+			if TetrisNewPiece = '1' then
+				-- Create a new piece
+				Piece_rot		<= 0;
+				Piece_id		<= RNG_Seed mod TetrisShapeCount;
+				
+				-- Place the new piece
+				Piece_y			<= TetrisFirstY;
+				Piece_x			<= TetrisFirstX;
+				
+				TetrisNewPiece	<= '0';
+			end if;
+		end if;
+	end process;
+	
+	reset_proc: process(clock_100)
+	begin
+		if rising_edge(clock_100) then
+			if TetrisReset = '1' then
+				-- Reset the board
+				t_map				<= (others => '0');
+				
+				-- Reset score
+				Score				<= 0;
+				
+				TetrisReset			<= '0';
+			end if;
 		end if;
 	end process;
 end behav;
