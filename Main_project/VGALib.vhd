@@ -9,17 +9,29 @@ package VGALib is
 	constant V_Start	: integer := 35;
 	constant V_End		: integer := 514;
 	constant clk_const	: integer := 1;
+	constant boxSize	: integer := 20;
+	constant Offset		: integer := 20;
+	constant line_height: integer := 160;
+
 	
 	type draw_vector 	is array (2 downto 0) of integer;
 	type draw_vector_array is array (6 downto 0) of draw_vector;
 	
-	constant shape_data : draw_vector_array	:= ((2,1,0),
-												(0,1,2),
-												(2,2,1),
-												(0,0,1),
-												(2,1,1),
-												(0,1,1),
-												(1,1,1));
+--	constant shape_data : draw_vector_array	:= ((2,1,0),
+--												(0,1,2),
+--												(2,2,1),
+--												(0,0,1),
+--												(2,1,1),
+--												(0,1,1),
+--												(1,1,1));
+
+	constant shape_data : draw_vector_array	:= ((0,1,2), -- diag right
+												(2,1,0), -- diag left
+												(0,1,1), -- fork right
+												(2,1,1), -- fork left
+												(0,0,1), -- bend right
+												(2,2,1), -- bend left
+												(1,1,1)); --straigt
 	
 	function DrawShape( H_counter 	: integer;
 						V_counter 	: integer;
