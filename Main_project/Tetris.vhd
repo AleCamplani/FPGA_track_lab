@@ -32,7 +32,7 @@ architecture behav of Tetris is
 	signal V_counter_value 	: integer 							:= 0;
 	signal x 				: integer 							:= 0;
 	signal y 				: integer 							:= 0;
-	signal t_map			: tetris_array						:= (others => '0');
+	signal t_map			: tetris_array						:= (others => (others => '0'));
 	signal Piece_x			: integer							:= 0;
 	signal Piece_y			: integer							:= 0;
 	signal Piece_id			: integer							:= 0;
@@ -141,6 +141,7 @@ begin
 	move_proc: process(move_clk_1)
 	variable collision		: std_logic := '0';
 	variable var_piece_y	: integer	:= 0;
+	variable var_t_map		: tetris_array:= (others => (others => 0));
 	begin
 		if rising_edge(move_clk_1) then
 			-- Move piece
@@ -155,12 +156,27 @@ begin
 						if TetrisShapes(Piece_id)(Piece_rot)(y * TetrisShapeSize + x) = '1' and Piece_y + y < 0 then
 							TetrisReset											<= '1';
 						else
-							t_map((Piece_y + y) * TetrisWidth + Piece_x + x)	<= '1';
+							t_map(Piece_y + y)(Piece_x + x)	<= '1';
 						end if;
 					end loop;
 				end loop;
 				
 				TetrisNewPiece		<= '1';
+				
+				-- remove full lines
+				var_t_map			:= t_map;
+				for y in TetrisHeight - 1 downto 0 loop
+					if and_reduce(t_map(y)) = '1' then
+						if y > 0 then
+							for y_move in y - 1 downto 0 loop
+								var_t_map(y_move + 1)	:= var_t_map(y_move);
+							end loop;
+						end if;
+						
+						var_t_map(0)					:= (others => 0);
+					end if;
+				end loop;
+				t_map				<= var_t_map;
 			else -- move the piece
 				Piece_y			<= var_piece_y;
 			end if;
@@ -191,7 +207,7 @@ begin
 		if rising_edge(clock_100) then
 			if TetrisReset = '1' then
 				-- Reset the board
-				t_map				<= (others => '0');
+				t_map				<= (others => (others => '0'));
 				
 				-- Reset score
 				Score				<= 0;
