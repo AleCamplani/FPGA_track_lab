@@ -12,6 +12,13 @@ use work.TetrisLib.all;
 entity Tetris is
     port (
         clock_100           : in  std_logic;
+		
+		BTN_Reset			: in  std_logic;
+		BTN_MoveLeft		: in  std_logic;
+		BTN_MoveRight		: in  std_logic;
+		BTN_RotateCCW		: in  std_logic;
+		BTN_RotateCW		: in  std_logic;
+		
 		HS 					: out STD_LOGIC;
 		VS 					: out STD_LOGIC;
 		r,g,b 				: out STD_LOGIC_VECTOR(3 downto 0) 	:= (others => '0')
@@ -25,7 +32,7 @@ architecture behav of Tetris is
 	signal V_counter_value 	: integer 							:= 0;
 	signal x 				: integer 							:= 0;
 	signal y 				: integer 							:= 0;
-	signal t_map			: tetris_array						:= (others => '0');
+	signal t_map			: tetris_array						:= (others => (others => '0'));
 	signal Piece_x			: integer							:= 0;
 	signal Piece_y			: integer							:= 0;
 	signal Piece_id			: integer							:= 0;
@@ -134,6 +141,7 @@ begin
 	move_proc: process(move_clk_1)
 	variable collision		: std_logic := '0';
 	variable var_piece_y	: integer	:= 0;
+	variable var_t_map		: tetris_array:= (others => (others => 0));
 	begin
 		if rising_edge(move_clk_1) then
 			-- Move piece
@@ -148,17 +156,34 @@ begin
 						if TetrisShapes(Piece_id)(Piece_rot)(y * TetrisShapeSize + x) = '1' and Piece_y + y < 0 then
 							TetrisReset											<= '1';
 						else
-							t_map((Piece_y + y) * TetrisWidth + Piece_x + x)	<= '1';
+							t_map(Piece_y + y)(Piece_x + x)	<= '1';
 						end if;
 					end loop;
 				end loop;
 				
 				TetrisNewPiece		<= '1';
+				
+				-- remove full lines
+				var_t_map			:= t_map;
+				for y in TetrisHeight - 1 downto 0 loop
+					if and_reduce(t_map(y)) = '1' then
+						if y > 0 then
+							for y_move in y - 1 downto 0 loop
+								var_t_map(y_move + 1)	:= var_t_map(y_move);
+							end loop;
+						end if;
+						
+						var_t_map(0)					:= (others => 0);
+					end if;
+				end loop;
+				t_map				<= var_t_map;
 			else -- move the piece
 				Piece_y			<= var_piece_y;
 			end if;
 		end if;
 	end process;
+	
+	
 	
 	new_piece_proc: process(clock_100)
 	begin
@@ -182,12 +207,52 @@ begin
 		if rising_edge(clock_100) then
 			if TetrisReset = '1' then
 				-- Reset the board
-				t_map				<= (others => '0');
+				t_map				<= (others => (others => '0'));
 				
 				-- Reset score
 				Score				<= 0;
 				
 				TetrisReset			<= '0';
+			end if;
+			
+			if rising_edge(BTN_Reset) then
+				TetrisReset			<= '1';
+			end if;
+		end if;
+	end process;
+	
+	btn_control_proc process(clock_100)
+	variable var_piece_x		: integer	:= 0;
+	variable var_rot_id			: integer	:= 0;
+	begin
+		if rising_edge(clock_100) then
+			if rising_edge(BTN_MoveLeft) then
+				var_piece_x		:= Piece_x - 1;
+			elsif rising_edge(BTN_MoveRight) then
+				var_piece_x		:= Piece_x + 1;
+			else
+				var_piece_x		:= Piece_x;
+			end if;
+			
+			if rising_edge(BTN_RotateCW) then
+				if Piece_rot = 0 then
+					var_rot_id	:= 3;
+				else
+					var_rot_id		:= Piece_rot - 1;
+				end if;
+			elsif rising_edge(BTN_RotateCCW) then
+				if Piece_rot = 3 then
+					var_rot_id	:= 0;
+				else
+					var_rot_id	:= Piece_rot + 1;
+				end if;
+			else
+				var_rot_id		:= Piece_rot;
+			end if;
+			
+			if CheckCollision(t_map, TetrisShapes(Piece_id)(var_rot_id), var_piece_x, Piece_y) = '0' then
+				Piece_x			<= var_piece_x;
+				Piece_rot		<= var_rot_id;
 			end if;
 		end if;
 	end process;

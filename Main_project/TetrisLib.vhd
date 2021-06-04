@@ -19,9 +19,9 @@ package VGALib is
 	constant RNG_MULTIPLIER		: integer			:= 0x7FFFFFED;
 	constant RNG_CONSTANT		: integer			:= 0x7FFFFFC3;
 	
-	subtype tetris_array is std_logic_vector(TetrisHeight * TetrisWidth - 1 downto 0);
 	subtype tetris_shape is std_logic_vector(TetrisShapeSize * TetrisShapeSize - 1 downto 0);
 	
+	type tetris_array is array (TetrisHeight - 1 downto 0) of std_logic_vector(TetrisWidth - 1 downto 0);
 	type tetris_shape_rot is array (3 downto 0) of tetris_shape;
 	type tetris_shape_array is array (TetrisShapeCount - 1 downto 0) of tetris_shape_rot;
 	
@@ -80,7 +80,7 @@ package body VGALib is
 					and V_counter - V_0 >= v * size
 					and V_counter - V_0 < (v + 1) * size) then
 					
-					if (tetris_map(TetrisWidth * v + h) = '1') then
+					if (tetris_map(v)(h) = '1') then
 						Draw = '1';
 					end if;
 				end if;
@@ -131,7 +131,7 @@ package body VGALib is
 						or piece_posy + y <= TetrisHeight) then
 						Collided = '1';
 					-- Test if it collided
-					elsif tetris_map((piece_posy + y) * TetrisWidth + piece_posx + x) = '1' then
+					elsif tetris_map(piece_posy + y)(piece_posx + x) = '1' then
 						Collided = '1';
 					end if;
 				end if;
