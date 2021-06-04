@@ -12,6 +12,13 @@ use work.TetrisLib.all;
 entity Tetris is
     port (
         clock_100           : in  std_logic;
+		
+		BTN_Reset			: in  std_logic;
+		BTN_MoveLeft		: in  std_logic;
+		BTN_MoveRight		: in  std_logic;
+		BTN_RotateCCW		: in  std_logic;
+		BTN_RotateCW		: in  std_logic;
+		
 		HS 					: out STD_LOGIC;
 		VS 					: out STD_LOGIC;
 		r,g,b 				: out STD_LOGIC_VECTOR(3 downto 0) 	:= (others => '0')
@@ -160,6 +167,8 @@ begin
 		end if;
 	end process;
 	
+	
+	
 	new_piece_proc: process(clock_100)
 	begin
 		if rising_edge(clock_100) then
@@ -188,6 +197,46 @@ begin
 				Score				<= 0;
 				
 				TetrisReset			<= '0';
+			end if;
+			
+			if rising_edge(BTN_Reset) then
+				TetrisReset			<= '1';
+			end if;
+		end if;
+	end process;
+	
+	btn_control_proc process(clock_100)
+	variable var_piece_x		: integer	:= 0;
+	variable var_rot_id			: integer	:= 0;
+	begin
+		if rising_edge(clock_100) then
+			if rising_edge(BTN_MoveLeft) then
+				var_piece_x		:= Piece_x - 1;
+			elsif rising_edge(BTN_MoveRight) then
+				var_piece_x		:= Piece_x + 1;
+			else
+				var_piece_x		:= Piece_x;
+			end if;
+			
+			if rising_edge(BTN_RotateCW) then
+				if Piece_rot = 0 then
+					var_rot_id	:= 3;
+				else
+					var_rot_id		:= Piece_rot - 1;
+				end if;
+			elsif rising_edge(BTN_RotateCCW) then
+				if Piece_rot = 3 then
+					var_rot_id	:= 0;
+				else
+					var_rot_id	:= Piece_rot + 1;
+				end if;
+			else
+				var_rot_id		:= Piece_rot;
+			end if;
+			
+			if CheckCollision(t_map, TetrisShapes(Piece_id)(var_rot_id), var_piece_x, Piece_y) = '0' then
+				Piece_x			<= var_piece_x;
+				Piece_rot		<= var_rot_id;
 			end if;
 		end if;
 	end process;
