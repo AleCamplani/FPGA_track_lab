@@ -11,22 +11,22 @@ library work;
 entity VGATest is
     port (
         clock_100           : in  std_logic;
-		HS 					: out STD_LOGIC;
-		VS 					: out STD_LOGIC;
-		r,g,b 				: out STD_LOGIC_VECTOR(3 downto 0) 	:= (others => '0')
+		HS 					: out std_logic; --Horizontal synch, rests 'electrom beam' to the left of the screen
+		VS 					: out std_logic; --Vertical synch, rests 'electrom beam' to the top of the screen
+		r,g,b 				: out std_logic_vector(3 downto 0) 	:= (others => '0') -- The colours to draw with
     );
 end VGATest;
 
 architecture behav of VGATest is
-	signal clk_1           	: std_logic                    		:= '0';
-	signal H_counter_value 	: integer 							:= 0;
-	signal V_counter_value 	: integer 							:= 0;
-	signal x 				: integer 							:= 0;
-	signal y 				: integer 							:= 0;
+	signal clk_1           	: std_logic                    		:= '0'; -- A slower clock used for drawing to the screen
+	signal H_counter_value 	: integer 							:= 0; -- The horisontal position
+	signal V_counter_value 	: integer 							:= 0; -- The vertical position
+	--signal x 				: integer 							:= 0; -- 
+	--signal y 				: integer 							:= 0;
     
 begin
 
-    clk_proc: process(clock_100)
+    clk_proc: process(clock_100) -- Make a slower clock, this clock is at half speed
     variable clk_count  : integer := 0;
     begin
         if rising_edge(clock_100) then
@@ -43,7 +43,7 @@ begin
     begin
         if rising_edge(clk_1) then
 			
-			H_counter_value <= H_counter_value +1;
+			H_counter_value <= H_counter_value +1; -- Move to the right
 			if (H_counter_value >= 800) then --go one row down
 				H_counter_value <= 0;
 				V_counter_value <= V_counter_value +1;
@@ -51,8 +51,8 @@ begin
 			if (V_counter_value >= 521) then --go back to top
 				V_counter_value <= 0;
 			end if;
-			x <= H_counter_value-143; --compensate for retrace?
-			y <= V_counter_value-31;
+			--x <= H_counter_value-143; --compensate for retrace?
+			--y <= V_counter_value-31;
 			
 			if (H_counter_value < 96) then --not yet past the first porch
 				HS <= '1';
@@ -68,7 +68,7 @@ begin
 		end if;
 	end process;
 	
-	draw_proc: process(clk_1, H_counter_value, V_counter_value)
+	draw_proc: process(clk_1, H_counter_value, V_counter_value) -- The drawing process
 	begin
 		if (H_counter_value >= 144
 		and H_counter_value < 800
@@ -84,7 +84,7 @@ begin
 			--or H_counter_value = 144+3*218
 			--or V_counter_value = 31+245)
 			--or V_counter_value = 31+2*245)
-			then
+			then -- Draw red lines
 				r <= "0110";
 				g <= "0000";
 				b <= "0000";
